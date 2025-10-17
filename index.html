@@ -3,571 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algoritmo de Kruskal - Árvore Geradora Mínima</title>
+    <title>Algoritmo de Kruskal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.7;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
         }
-
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .header h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.3em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .content {
-            padding: 60px 40px;
-        }
-
-        .section {
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.4s; }
-        .section:nth-child(4) { animation-delay: 0.6s; }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h2 {
-            color: #2c3e50;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #3498db, #2c3e50);
-            border-radius: 2px;
-        }
-
-        h3 {
-            color: #34495e;
-            font-size: 1.8em;
-            margin: 40px 0 20px 0;
-        }
-
-        p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .highlight {
-            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
             padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            border-left: 5px solid #3498db;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
-        .algorithm-steps {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 15px;
-            margin: 30px 0;
-            border: 1px solid #e9ecef;
+        h1, h2 {
+            color: #366;
         }
-
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .step-number {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-
-        .step-content {
-            flex: 1;
-        }
-
-        .step-title {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .code-block {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
+        pre {
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
             overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .code-block::before {
-            content: 'Pseudocódigo';
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            background: #3498db;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .complexity-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .complexity-table th,
-        .complexity-table td {
-            padding: 20px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .complexity-table th {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-            font-weight: bold;
-        }
-
-        .complexity-table tr:hover {
-            background: #f8f9fa;
-        }
-
-        .visualization-container {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 15px;
-            margin: 30px 0;
-            text-align: center;
-            border: 2px dashed #3498db;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
-        }
-
-        .applications-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-
-        .application-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 4px solid #3498db;
-        }
-
-        .application-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .application-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
-            color: #3498db;
-        }
-
-        .footer {
-            background: #2c3e50;
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-            margin: 0 15px;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: #5dade2;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5em;
-            }
-            
-            .content {
-                padding: 30px 20px;
-            }
-            
-            h2 {
-                font-size: 2em;
-            }
-            
-            .step {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .step-number {
-                margin: 0 auto 15px auto;
-            }
         }
     </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <h1>Algoritmo de Kruskal</h1>
-            <p>Descobrindo a Árvore Geradora Mínima através de um algoritmo guloso elegante e eficiente</p>
-        </header>
+        <h1>Algoritmo de Kruskal</h1>
+        <p>O Algoritmo de Kruskal é um algoritmo guloso na teoria dos grafos que encontra uma Árvore Geradora Mínima (MST - Minimum Spanning Tree) para um grafo conectado e ponderado. Uma MST é um subconjunto das arestas de um grafo conectado e ponderado que conecta todos os vértices sem ciclos e com o custo total mínimo possível das arestas.</p>
 
-        <main class="content">
-            <section class="section">
-                <h2>Introdução</h2>
-                <p>O Algoritmo de Kruskal é uma das joias da teoria dos grafos, desenvolvido pelo matemático Joseph Kruskal em 1956. Este algoritmo resolve um dos problemas fundamentais da ciência da computação: encontrar a <strong>Árvore Geradora Mínima (AGM)</strong> de um grafo conexo e ponderado.</p>
-                
-                <div class="highlight">
-                    <h3>O que é uma Árvore Geradora Mínima?</h3>
-                    <p>Uma Árvore Geradora Mínima é um subconjunto das arestas de um grafo que conecta todos os vértices sem formar ciclos, minimizando o peso total das arestas selecionadas. É como encontrar a maneira mais econômica de conectar todas as cidades de um país com estradas, sem criar rotas redundantes.</p>
-                </div>
+        <h2>Como funciona?</h2>
+        <p>O algoritmo segue os seguintes passos:</p>
+        <ol>
+            <li>Ordene todas as arestas do grafo em ordem não decrescente de seus pesos.</li>
+            <li>Inicialize uma floresta onde cada vértice é uma árvore separada.</li>
+            <li>Percorra as arestas ordenadas, adicionando a aresta atual à MST se ela não formar um ciclo com as arestas já adicionadas. Para verificar ciclos, geralmente é usada uma estrutura de dados Union-Find (Disjoint Set Union).</li>
+            <li>Continue até que a MST tenha (V-1) arestas, onde V é o número de vértices do grafo, ou até que todas as arestas tenham sido consideradas.</li>
+        </ol>
 
-                <p>O algoritmo de Kruskal é classificado como um <strong>algoritmo guloso (greedy)</strong>, pois em cada etapa ele faz a escolha localmente ótima - seleciona sempre a aresta de menor peso disponível que não forme um ciclo. Surpreendentemente, essa estratégia "gananciosa" garante a solução globalmente ótima.</p>
-            </section>
+        <h2>Exemplo de Código (Pseudocódigo)</h2>
+        <pre><code>
+function Kruskal(grafo):
+    MST = conjunto vazio de arestas
+    Para cada vértice v em grafo:
+        criar um conjunto para v
 
-            <section class="section">
-                <h2>Como Funciona o Algoritmo</h2>
-                <div class="algorithm-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <div class="step-title">Inicialização</div>
-                            <p>Crie uma floresta onde cada vértice do grafo é uma árvore individual. Inicialize uma estrutura Union-Find para detectar ciclos eficientemente.</p>
-                        </div>
-                    </div>
+    arestas_ordenadas = ordenar todas as arestas de grafo por peso crescente
 
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <div class="step-title">Ordenação das Arestas</div>
-                            <p>Ordene todas as arestas do grafo em ordem crescente de seus pesos. Esta é a etapa que determina a complexidade temporal do algoritmo.</p>
-                        </div>
-                    </div>
+    Para cada aresta (u, v) com peso w em arestas_ordenadas:
+        se encontrar_conjunto(u) != encontrar_conjunto(v):
+            adicionar aresta (u, v) para MST
+            unir_conjuntos(u, v)
 
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <div class="step-title">Seleção Gulosa</div>
-                            <p>Para cada aresta na lista ordenada, verifique se ela conecta dois componentes diferentes. Se sim, adicione-a à AGM e una os componentes.</p>
-                        </div>
-                    </div>
+    retornar MST
+        </code></pre>
 
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <div class="step-title">Detecção de Ciclos</div>
-                            <p>Use a estrutura Union-Find para verificar eficientemente se adicionar uma aresta criaria um ciclo. Se criaria, descarte a aresta.</p>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <div class="step-title">Conclusão</div>
-                            <p>O algoritmo termina quando temos exatamente n-1 arestas (onde n é o número de vértices) ou quando todas as arestas foram consideradas.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Visualização Interativa</h2>
-                <div class="visualization-container">
-                    <h3>Demonstração Passo a Passo</h3>
-                    <p>Explore o algoritmo de Kruskal com esta visualização interativa!</p>
-                    <canvas id="graphCanvas" width="600" height="400" style="border: 2px solid #3498db; border-radius: 10px; margin: 20px 0; background: white;"></canvas>
-                    
-                    <div style="margin: 20px 0;">
-                        <div id="status" style="background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; color: #2c3e50; text-align: center;">
-                            Pronto para iniciar o Algoritmo de Kruskal
-                        </div>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <label for="speedControl" style="margin-right: 10px; font-weight: bold;">Velocidade:</label>
-                            <select id="speedControl" onchange="setAnimationSpeed(this.value)" style="padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7;">
-                                <option value="2500">Lenta</option>
-                                <option value="1500" selected>Normal</option>
-                                <option value="800">Rápida</option>
-                                <option value="400">Muito Rápida</option>
-                            </select>
-                        </div>
-                        
-                        <button class="btn" onclick="startVisualization()">▶️ Executar Completo</button>
-                        <button class="btn" onclick="nextStep()">⏭️ Próximo Passo</button>
-                        <button class="btn" onclick="resetVisualization()">🔄 Reiniciar</button>
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: left;">
-                        <h4 style="color: #2c3e50; margin-bottom: 15px;">Como usar:</h4>
-                        <ul style="color: #34495e; line-height: 1.6;">
-                            <li><strong>Executar Completo:</strong> Executa todo o algoritmo automaticamente</li>
-                            <li><strong>Próximo Passo:</strong> Avança um passo por vez para análise detalhada</li>
-                            <li><strong>Reiniciar:</strong> Volta ao estado inicial</li>
-                            <li><strong>Velocidade:</strong> Controla a velocidade da animação automática</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Análise de Complexidade</h2>
-                <p>A eficiência do Algoritmo de Kruskal depende principalmente de duas operações: a ordenação das arestas e as operações Union-Find para detecção de ciclos.</p>
-                
-                <table class="complexity-table">
-                    <thead>
-                        <tr>
-                            <th>Operação</th>
-                            <th>Complexidade</th>
-                            <th>Descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ordenação das Arestas</td>
-                            <td>O(E log E)</td>
-                            <td>Onde E é o número de arestas</td>
-                        </tr>
-                        <tr>
-                            <td>Union-Find (com otimizações)</td>
-                            <td>O(E α(V))</td>
-                            <td>Onde α é a função inversa de Ackermann</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Complexidade Total</strong></td>
-                            <td><strong>O(E log E)</strong></td>
-                            <td>Dominada pela ordenação</td>
-                        </tr>
-                        <tr>
-                            <td>Espaço</td>
-                            <td>O(V)</td>
-                            <td>Para a estrutura Union-Find</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <p>Como E ≤ V², temos que log E = O(log V), então a complexidade também pode ser expressa como <strong>O(E log V)</strong>.</p>
-            </section>
-
-            <section class="section">
-                <h2>Implementação</h2>
-                <div class="code-block">
-função Kruskal(G):
-    // Inicialização
-    A = conjunto vazio  // Árvore geradora mínima
-    
-    // Criar conjuntos disjuntos para cada vértice
-    para cada vértice v em G.V:
-        FAZER-CONJUNTO(v)
-    
-    // Ordenar arestas por peso crescente
-    ordene as arestas de G.E por peso w
-    
-    // Processar cada aresta
-    para cada aresta (u, v) em G.E (ordenadas):
-        // Verificar se u e v estão em componentes diferentes
-        se ENCONTRAR-CONJUNTO(u) ≠ ENCONTRAR-CONJUNTO(v):
-            A = A ∪ {(u, v)}  // Adicionar aresta à AGM
-            UNIR(u, v)        // Unir os componentes
-            
-            // Parar se temos n-1 arestas
-            se |A| = |G.V| - 1:
-                quebrar
-    
-    retornar A
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Aplicações Práticas</h2>
-                <div class="applications-grid">
-                    <div class="application-card">
-                        <div class="application-icon">🌐</div>
-                        <h3>Redes de Comunicação</h3>
-                        <p>Design de redes de telecomunicações, internet e sistemas distribuídos com custo mínimo de infraestrutura.</p>
-                    </div>
-
-                    <div class="application-card">
-                        <div class="application-icon">🚗</div>
-                        <h3>Planejamento de Transporte</h3>
-                        <p>Otimização de rotas de transporte público, logística de entrega e planejamento urbano.</p>
-                    </div>
-
-                    <div class="application-card">
-                        <div class="application-icon">⚡</div>
-                        <h3>Circuitos Elétricos</h3>
-                        <p>Design de circuitos integrados e redes de distribuição de energia elétrica.</p>
-                    </div>
-
-                    <div class="application-card">
-                        <div class="application-icon">🔬</div>
-                        <h3>Análise de Dados</h3>
-                        <p>Clusterização hierárquica, análise de redes sociais e bioinformática.</p>
-                    </div>
-
-                    <div class="application-card">
-                        <div class="application-icon">🏗️</div>
-                        <h3>Engenharia Civil</h3>
-                        <p>Planejamento de redes de água, esgoto e infraestrutura urbana.</p>
-                    </div>
-
-                    <div class="application-card">
-                        <div class="application-icon">🎮</div>
-                        <h3>Desenvolvimento de Jogos</h3>
-                        <p>Geração procedural de mapas, pathfinding e simulação de mundos virtuais.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Comparação com Outros Algoritmos</h2>
-                <p>O Algoritmo de Kruskal não é o único método para encontrar árvores geradoras mínimas. Vamos compará-lo com seu principal concorrente:</p>
-                
-                <div class="highlight">
-                    <h3>Kruskal vs. Prim</h3>
-                    <p><strong>Algoritmo de Prim:</strong> Constrói a AGM crescendo uma única árvore, sempre adicionando a aresta de menor peso que conecta um vértice na árvore a um vértice fora dela.</p>
-                    <p><strong>Algoritmo de Kruskal:</strong> Constrói a AGM considerando arestas globalmente, mantendo uma floresta de árvores que gradualmente se unem.</p>
-                    <p><strong>Quando usar cada um:</strong> Prim é mais eficiente para grafos densos, enquanto Kruskal é preferível para grafos esparsos.</p>
-                </div>
-            </section>
-        </main>
-
-        <footer class="footer">
-            <p>Desenvolvido com ❤️ para educação em Ciência da Computação</p>
-            <p>
-                <a href="https://pt.wikipedia.org/wiki/Algoritmo_de_Kruskal" target="_blank">Wikipédia</a>
-                <a href="https://www.youtube.com/watch?v=dQ0wNPGGgrM" target="_blank">Vídeo Tutorial</a>
-                <a href="https://github.com" target="_blank">Código Fonte</a>
-            </p>
-        </footer>
+        <h2>Visualização / Exemplo Prático</h2>
+        <p>Em breve, uma visualização interativa ou um exemplo prático será adicionado aqui.</p>
     </div>
-
-    <script src="kruskal-visualization.js"></script>
 </body>
 </html>
 
