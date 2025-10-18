@@ -66,6 +66,64 @@ pre code {
     border-radius: 3px;
 }
 
+canvas {
+    display: block;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.visualization-controls {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.visualization-controls button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.visualization-controls button:hover {
+    background-color: #0056b3;
+}
+
+.visualization-controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.status-message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.speed-control {
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.speed-control span {
+    margin-right: 10px;
+}
+
+.speed-control input[type="range"] {
+    width: 150px;
+    vertical-align: middle;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .container {
