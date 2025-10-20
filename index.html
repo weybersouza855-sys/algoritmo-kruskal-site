@@ -75,6 +75,95 @@ function Kruskal(grafo):
         </div>
         <canvas id="graphCanvas" width="600" height="400"></canvas>
         <div id="status" class="status-message"></div>
+
+        <h2>Exemplo Prático Detalhado</h2>
+        <p>Vamos aplicar o Algoritmo de Kruskal em um grafo simples para entender o processo passo a passo.</p>
+
+        <h3>Grafo de Exemplo:</h3>
+        <p>Considere o seguinte grafo com 5 vértices (A, B, C, D, E) e as seguintes arestas com seus pesos:</p>
+        <ul>
+            <li>(A, B) - Peso: 4</li>
+            <li>(A, C) - Peso: 1</li>
+            <li>(B, C) - Peso: 2</li>
+            <li>(B, D) - Peso: 5</li>
+            <li>(C, D) - Peso: 8</li>
+            <li>(C, E) - Peso: 10</li>
+            <li>(D, E) - Peso: 6</li>
+        </ul>
+
+        <h3>Passo a Passo da Execução:</h3>
+        <ol>
+            <li>
+                <strong>Ordenar as Arestas:</strong> Primeiro, listamos todas as arestas em ordem crescente de peso:
+                <ul>
+                    <li>(A, C) - Peso: 1</li>
+                    <li>(B, C) - Peso: 2</li>
+                    <li>(A, B) - Peso: 4</li>
+                    <li>(B, D) - Peso: 5</li>
+                    <li>(D, E) - Peso: 6</li>
+                    <li>(C, D) - Peso: 8</li>
+                    <li>(C, E) - Peso: 10</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Inicialização:</strong> Cada vértice é um componente separado: {A}, {B}, {C}, {D}, {E}. A MST está vazia.
+            </li>
+            <li>
+                <strong>Considerar (A, C) - Peso: 1:</strong>
+                <ul>
+                    <li>A e C estão em componentes diferentes.</li>
+                    <li>Adicionar (A, C) à MST.</li>
+                    <li>Unir {A} e {C}. Componentes: {A, C}, {B}, {D}, {E}. MST: {(A, C)}.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Considerar (B, C) - Peso: 2:</strong>
+                <ul>
+                    <li>B e C estão em componentes diferentes ({B} e {A, C}).</li>
+                    <li>Adicionar (B, C) à MST.</li>
+                    <li>Unir {B} e {A, C}. Componentes: {A, B, C}, {D}, {E}. MST: {(A, C), (B, C)}.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Considerar (A, B) - Peso: 4:</strong>
+                <ul>
+                    <li>A e B estão no mesmo componente ({A, B, C}).</li>
+                    <li>Ignorar (A, B) pois formaria um ciclo.</li>
+                    <li>Componentes: {A, B, C}, {D}, {E}. MST: {(A, C), (B, C)}.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Considerar (B, D) - Peso: 5:</strong>
+                <ul>
+                    <li>B e D estão em componentes diferentes ({A, B, C} e {D}).</li>
+                    <li>Adicionar (B, D) à MST.</li>
+                    <li>Unir {A, B, C} e {D}. Componentes: {A, B, C, D}, {E}. MST: {(A, C), (B, C), (B, D)}.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Considerar (D, E) - Peso: 6:</strong>
+                <ul>
+                    <li>D e E estão em componentes diferentes ({A, B, C, D} e {E}).</li>
+                    <li>Adicionar (D, E) à MST.</li>
+                    <li>Unir {A, B, C, D} e {E}. Componentes: {A, B, C, D, E}. MST: {(A, C), (B, C), (B, D), (D, E)}.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Considerar (C, D) - Peso: 8:</strong>
+                <ul>
+                    <li>C e D estão no mesmo componente ({A, B, C, D, E}).</li>
+                    <li>Ignorar (C, D) pois formaria um ciclo.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Considerar (C, E) - Peso: 10:</strong>
+                <ul>
+                    <li>C e E estão no mesmo componente ({A, B, C, D, E}).</li>
+                    <li>Ignorar (C, E) pois formaria um ciclo.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>A MST final contém as arestas (A, C), (B, C), (B, D) e (D, E), com um custo total de 1 + 2 + 5 + 6 = 14.</p>
     </div>
     <script src="kruskal-visualization.js"></script>
 </body>
